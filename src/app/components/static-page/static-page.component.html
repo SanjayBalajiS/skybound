@@ -1,0 +1,118 @@
+<div class="container animate-fade-in" style="max-width: 800px; margin-top: 4rem;">
+  <div class="glass-panel card" style="padding: 3rem;">
+    <h1 style="color: var(--primary-color); margin-bottom: 1rem; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+      {{ getTitle() }}
+    </h1>
+
+    <div *ngIf="topic === 'fees-and-charges'" style="line-height: 1.8; color: var(--text-main);">
+      <p>SkyBound Airways strives to maintain transparent pricing. Below is the schedule of our common fees and charges.</p>
+      
+      <h3 style="margin-top: 2rem;">Baggage Fees</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+        <tr style="border-bottom: 1px solid #eee;">
+          <th style="padding: 0.5rem; text-align: left;">Category</th>
+          <th style="padding: 0.5rem; text-align: right;">Fee (USD)</th>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 0.5rem;">Overweight Baggage (23kg - 32kg)</td>
+          <td style="padding: 0.5rem; text-align: right;">$75.00</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 0.5rem;">Extra Checked Bag (Up to 23kg)</td>
+          <td style="padding: 0.5rem; text-align: right;">$100.00</td>
+        </tr>
+      </table>
+
+      <h3 style="margin-top: 2rem;">Cancellation & Change Fees</h3>
+      <p>Fees depend on your purchased cabin class:</p>
+      <ul>
+        <li><strong>Economy:</strong> $150 change fee. Non-refundable.</li>
+        <li><strong>Business:</strong> $50 change fee. Fully refundable.</li>
+        <li><strong>SkyBound First:</strong> No change fees. Fully refundable.</li>
+      </ul>
+    </div>
+
+    <div *ngIf="topic === 'codeshare'" style="line-height: 1.8; color: var(--text-main);">
+      <p>SkyBound Airways is proud to partner with leading global airlines to expand your travel possibilities.</p>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+        <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary-color);">
+          <h4 style="margin: 0 0 0.5rem 0;">Oneworld Alliance</h4>
+          <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted);">As a proud member, earn and redeem SkyBound Miles across 13 member airlines to over 1,000 destinations globally.</p>
+        </div>
+        
+        <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--success-color);">
+          <h4 style="margin: 0 0 0.5rem 0;">Strategic Partners</h4>
+          <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted);">Enjoy seamless check-in and baggage transfers with our direct codeshare partners, including Air Zenith and Global Wings.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="topic === 'about-us'" style="line-height: 1.8; color: var(--text-main);">
+      <p style="font-size: 1.1rem; color: var(--primary-color);">We are SkyBound Airways. Our mission is to connect the world with unmatched comfort, safety, and luxury.</p>
+      <p>Founded in 1998, SkyBound has grown from a regional carrier to a global powerhouse. We pride ourselves on our state-of-the-art fleet and award-winning customer service.</p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; text-align: center;">
+        <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 8px;">
+          <h2 style="margin: 0; color: #1e40af;">150+</h2>
+          <p style="margin: 0; font-size: 0.9rem;">Destinations</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 8px;">
+          <h2 style="margin: 0; color: #1e40af;">30M+</h2>
+          <p style="margin: 0; font-size: 0.9rem;">Passengers Yearly</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 8px;">
+          <h2 style="margin: 0; color: #1e40af;">250</h2>
+          <p style="margin: 0; font-size: 0.9rem;">Modern Aircraft</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="topic === 'faq'" style="line-height: 1.8; color: var(--text-main);">
+      <p>Find quick answers to our most common questions below.</p>
+      
+      <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+        <div style="border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+          <h4 style="margin: 0 0 0.5rem 0; color: var(--primary-color);">How early should I arrive at the airport?</h4>
+          <p style="margin: 0; font-size: 0.95rem;">For domestic flights, we recommend arriving 2 hours prior to departure. For international flights, please arrive at least 3 hours before.</p>
+        </div>
+        <div style="border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+          <h4 style="margin: 0 0 0.5rem 0; color: var(--primary-color);">What is the carry-on baggage allowance?</h4>
+          <p style="margin: 0; font-size: 0.95rem;">All passengers are allowed one cabin bag (up to 7kg) and one small personal item (e.g., laptop bag or purse) free of charge.</p>
+        </div>
+        <div style="border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+          <h4 style="margin: 0 0 0.5rem 0; color: var(--primary-color);">Can I change my flight online?</h4>
+          <p style="margin: 0; font-size: 0.95rem;">Yes! Navigate to "My Bookings" in the mega-menu, view your booking, and select "Change Flight". Note that change fees may apply depending on your fare class.</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="topic === 'whatsapp'" style="line-height: 1.8; color: var(--text-main); text-align: center;">
+      <p style="font-size: 1.1rem;">Chat with Dottie, our AI assistant, or a live agent directly on WhatsApp.</p>
+      
+      <div style="margin: 3rem auto; width: 200px; height: 200px; background: white; border: 4px solid #25D366; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.2);">
+        <!-- Mock QR Code -->
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; width: 120px; height: 120px;">
+          <div *ngFor="let _ of [].constructor(25)" style="background: #111; border-radius: 2px;"></div>
+        </div>
+      </div>
+
+      <h3 style="color: #25D366;">Scan the code above</h3>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Or click the button below to open WhatsApp Web.</p>
+
+      <a href="javascript:void(0)" class="btn" style="background-color: #25D366; color: white; text-decoration: none; padding: 0.75rem 2rem; font-weight: bold; border-radius: 24px;">Open WhatsApp</a>
+    </div>
+
+    <div *ngIf="topic === 'terms'" style="line-height: 1.8; color: var(--text-main);">
+      <p>Last updated: June 1, 2024</p>
+      <h4 style="margin-top: 2rem;">1. Acceptance of Terms</h4>
+      <p style="font-size: 0.9rem;">By accessing and using the SkyBound Airways website and mobile applications, you agree to be bound by these Terms and Conditions and our Privacy Policy.</p>
+      
+      <h4 style="margin-top: 1.5rem;">2. Booking and Payments</h4>
+      <p style="font-size: 0.9rem;">Fares are not guaranteed until a booking is confirmed and ticketed. We reserve the right to cancel any booking if payment is fraudulent or fails to clear.</p>
+
+      <h4 style="margin-top: 1.5rem;">3. Liability Limitations</h4>
+      <p style="font-size: 0.9rem;">SkyBound Airways is subject to international conventions (such as the Warsaw Convention or Montreal Convention) which may limit liability for death, bodily injury, and baggage loss or damage.</p>
+    </div>
+
+  </div>
+</div>

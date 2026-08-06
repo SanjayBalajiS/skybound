@@ -1,0 +1,35 @@
+<div class="container animate-fade-in" style="max-width: 600px; margin-top: 4rem;">
+  <div class="glass-panel card" style="text-align: center; padding: 3rem;">
+    <h2 style="color: var(--primary-color); margin-bottom: 1rem;">🎉 My Scratch Card</h2>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Click the card below to reveal your exclusive SkyBound discount code!</p>
+    
+    <div style="position: relative; width: 300px; height: 150px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      
+      <!-- The Hidden Code -->
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; border: 2px dashed #94a3b8; border-radius: 12px; z-index: 1;">
+        <div style="font-size: 0.9rem; color: #64748b; font-weight: bold; text-transform: uppercase;">You won 10% off!</div>
+        <div style="font-size: 2.5rem; font-weight: 900; color: #1e40af; letter-spacing: 2px; font-family: monospace;">SKY10</div>
+      </div>
+
+      <!-- The Scratch Overlay -->
+      <div 
+        [style.opacity]="isRevealed ? '0' : '1'" 
+        [style.pointer-events]="isRevealed ? 'none' : 'auto'"
+        (click)="revealCode()"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); display: flex; align-items: center; justify-content: center; z-index: 2; cursor: pointer; transition: opacity 1s ease-out; border-radius: 12px;">
+        <span style="color: white; font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+          🪙 Click to scratch!
+        </span>
+      </div>
+      
+    </div>
+
+    <div *ngIf="isRevealed" class="animate-fade-in" style="margin-top: 2rem;">
+      <div class="alert alert-success">
+        Congratulations! Use code <strong>SKY10</strong> at checkout on your next booking to save 10%.
+      </div>
+      <button class="btn btn-primary" style="margin-top: 1rem;" routerLink="/">Book a Flight Now</button>
+    </div>
+
+  </div>
+</div>

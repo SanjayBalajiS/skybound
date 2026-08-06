@@ -1,0 +1,61 @@
+<div class="container animate-fade-in">
+  <div class="page-header">
+    <h1>My Bookings</h1>
+    <p>Manage your upcoming flights and past trips.</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-state glass-panel">
+    <div class="loader"></div>
+    <p>Loading your bookings...</p>
+  </div>
+
+  <div *ngIf="!loading && bookings.length === 0" class="empty-state glass-panel">
+    <h2>No Bookings Found</h2>
+    <p>You haven't booked any flights yet.</p>
+    <a routerLink="/" class="btn btn-primary">Book a Flight</a>
+  </div>
+
+  <div *ngIf="!loading && bookings.length > 0" class="bookings-grid">
+    <div *ngFor="let booking of bookings" class="booking-card glass-panel card">
+      <div class="booking-header">
+        <span class="booking-id">Booking #{{booking.id}}</span>
+        <span class="status" [class.confirmed]="booking.status === 'Confirmed'" [class.cancelled]="booking.status === 'Cancelled'">
+          {{booking.status}}
+        </span>
+      </div>
+      
+      <div class="passenger-info">
+        <div class="info-group">
+          <span class="label">Passenger</span>
+          <span class="value">{{booking.passengerName}}</span>
+        </div>
+        <div class="info-group">
+          <span class="label">Email</span>
+          <span class="value">{{booking.email}}</span>
+        </div>
+        <div class="info-group">
+          <span class="label">Flight ID</span>
+          <span class="value">{{booking.flightId}}</span>
+        </div>
+      </div>
+
+      <div class="booking-actions">
+        <a *ngIf="booking.status === 'Confirmed'" [routerLink]="['/ticket', booking.id]" class="btn btn-primary">View Ticket</a>
+        
+        <button *ngIf="booking.status === 'On Hold'" class="btn btn-primary" (click)="confirmBooking(booking)" [disabled]="booking.confirming">
+          {{ booking.confirming ? 'Processing...' : 'Confirm & Pay' }}
+        </button>
+
+        <button *ngIf="booking.status === 'Confirmed' || booking.status === 'On Hold'" 
+                class="btn btn-outline" 
+                style="color: #ef4444; border-color: #ef4444;"
+                (click)="cancelBooking(booking)" 
+                [disabled]="booking.confirming">
+          Cancel Booking
+        </button>
+
+        <button *ngIf="booking.status === 'Cancelled'" class="btn btn-outline" disabled>Cancelled</button>
+      </div>
+    </div>
+  </div>
+</div>

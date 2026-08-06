@@ -1,0 +1,61 @@
+<div class="container animate-fade-in">
+  <div class="results-header">
+    <h1>Flight Results</h1>
+    <p *ngIf="searchParams.airline">
+      Showing flights for <strong>{{searchParams.airline}}</strong>
+    </p>
+    <p *ngIf="searchParams.origin && searchParams.destination">
+      Showing flights from <strong>{{searchParams.origin}}</strong> to <strong>{{searchParams.destination}}</strong>
+    </p>
+  </div>
+
+  <div *ngIf="loading" class="loading-state glass-panel">
+    <div class="loader"></div>
+    <p>Searching for best flights...</p>
+  </div>
+
+  <div *ngIf="apiError" class="empty-state glass-panel">
+    <h2>Connection Error</h2>
+    <p>Could not connect to the backend server. Please make sure you have run <code>npm run server</code>.</p>
+  </div>
+
+  <div *ngIf="!loading && !apiError && filteredFlights.length === 0" class="empty-state glass-panel">
+    <h2>No Flights Found</h2>
+    <p>Try adjusting your search criteria. Check spelling or try a different date.</p>
+    <a routerLink="/" class="btn btn-outline">Back to Search</a>
+  </div>
+
+  <div *ngIf="!loading && !apiError && filteredFlights.length > 0" class="flights-list">
+    <div *ngFor="let flight of filteredFlights" class="flight-card glass-panel card">
+      <div class="flight-info">
+        <div class="airline-logo">✈️ {{flight.airline}}</div>
+        <div class="flight-times">
+          <div class="time-block">
+            <span class="time">{{flight.departureTime | date:'shortTime'}}</span>
+            <span class="city">{{flight.origin}}</span>
+          </div>
+          <div class="flight-duration">
+            <span class="line"></span>
+            <span class="icon">✈️</span>
+            <span class="line"></span>
+          </div>
+          <div class="time-block">
+            <span class="time">{{flight.arrivalTime | date:'shortTime'}}</span>
+            <span class="city">{{flight.destination}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flight-action">
+        <div class="price-details" style="text-align: right; margin-bottom: 0.5rem;">
+          <div style="font-size: 0.8rem; color: #64748b;">Total for {{ searchParams.passengers || 1 }} passenger(s)</div>
+          <div style="font-size: 0.8rem; color: #64748b; font-weight: bold;">{{ searchParams.cabinClass || 'Economy' }}</div>
+          <div class="price" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">${{getAdjustedPrice(flight.price)}}</div>
+        </div>
+        <div class="seats" style="margin-bottom: 0.5rem;">{{flight.seatsAvailable}} seats left</div>
+        <a [routerLink]="['/book', flight.id]" 
+           [queryParams]="{ passengers: searchParams.passengers || 1, cabinClass: searchParams.cabinClass || 'Economy' }"
+           class="btn btn-primary" style="width: 100%;">Book Now</a>
+      </div>
+    </div>
+  </div>
+</div>

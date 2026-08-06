@@ -1,0 +1,164 @@
+<div class="container animate-fade-in">
+  
+  <div *ngIf="loading" class="loading-state glass-panel">
+    <div class="loader"></div>
+    <p>Loading flight details...</p>
+  </div>
+
+  <div *ngIf="!loading && !flight" class="empty-state glass-panel">
+    <h2>Flight Not Found</h2>
+    <p>We couldn't find the flight you are looking for.</p>
+    <a routerLink="/" class="btn btn-outline">Back to Search</a>
+  </div>
+
+  <div *ngIf="flight" class="booking-grid">
+    <!-- Flight Summary Card -->
+    <div class="flight-summary glass-panel card">
+      <h2>Flight Summary</h2>
+      
+      <div class="flight-details">
+        <div class="airline-logo">✈️ {{flight.airline}} ({{flight.flightNumber}})</div>
+        
+        <div class="route-info">
+          <div class="location">
+            <span class="label">From</span>
+            <span class="city">{{flight.origin}}</span>
+            <span class="time">{{flight.departureTime | date:'medium'}}</span>
+          </div>
+          
+          <div class="location">
+            <span class="label">To</span>
+            <span class="city">{{flight.destination}}</span>
+            <span class="time">{{flight.arrivalTime | date:'medium'}}</span>
+          </div>
+        </div>
+
+        <div class="price-summary" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+          <div style="display: flex; justify-content: space-between; width: 100%;">
+            <span>Class:</span>
+            <strong>{{ cabinClass }}</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; width: 100%;">
+            <span>Passengers:</span>
+            <strong>{{ passengers }}</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; width: 100%; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <span style="font-weight: bold;">Total Price</span>
+            <span class="price">${{ adjustedPrice }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Form & Payment Card -->
+    <div class="booking-form-card glass-panel card">
+      
+      <!-- STEP 1: Passenger & Seat Selection -->
+      <div *ngIf="!showPaymentGateway">
+        <h2>Passenger Details & Seat</h2>
+        
+        <form [formGroup]="bookingForm">
+          <div class="form-group">
+            <label class="form-label" for="passengerName">Full Name</label>
+            <input type="text" id="passengerName" formControlName="passengerName" class="form-control" placeholder="John Doe">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" formControlName="email" class="form-control" placeholder="john@example.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Select a Seat <span *ngIf="selectedSeat" style="color: var(--primary-color);">({{selectedSeat}})</span></label>
+            <div class="seat-map">
+              <button type="button" *ngFor="let seat of seats" 
+                      class="seat-btn" 
+                      [class.selected]="selectedSeat === seat"
+                      (click)="selectSeat(seat)">
+                {{seat}}
+              </button>
+            </div>
+            <div *ngIf="!selectedSeat && bookingForm.touched" style="color: #ef4444; font-size: 0.8rem; margin-top: 0.5rem;">
+              Please select a seat to continue.
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="button" class="btn btn-outline" style="flex: 1;" (click)="onHold()" [disabled]="bookingForm.invalid || !selectedSeat || bookingStatus === 'submitting'">
+              Hold Booking
+            </button>
+            <button type="button" class="btn btn-primary" style="flex: 1;" (click)="proceedToPayment()" [disabled]="bookingForm.invalid || !selectedSeat">
+              Proceed to Payment
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 2: Secure Payment Gateway -->
+      <div *ngIf="showPaymentGateway" class="animate-fade-in">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+          <h2 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🔒</span> Secure Checkout
+          </h2>
+          <button class="btn btn-outline" style="padding: 0.2rem 0.8rem; font-size: 0.8rem;" (click)="showPaymentGateway = false" [disabled]="processingPayment || paymentSuccess">Back</button>
+        </div>
+
+        <div *ngIf="bookingStatus === 'success'" class="alert alert-success" style="margin-bottom: 1.5rem;">
+          Booking finalized successfully! Redirecting to your bookings...
+        </div>
+        
+        <div *ngIf="bookingStatus === 'error'" class="alert alert-danger" style="margin-bottom: 1.5rem;">
+          Failed to process booking. Please try again.
+        </div>
+
+        <div *ngIf="paymentSuccess && bookingStatus !== 'success'" class="alert alert-success" style="margin-bottom: 1.5rem;">
+          Payment Approved! Finalizing your booking...
+        </div>
+
+        <form *ngIf="bookingStatus !== 'success' && !paymentSuccess" (ngSubmit)="processPayment()">
+          <div style="background: rgba(30, 64, 175, 0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid rgba(30, 64, 175, 0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-muted); font-weight: 500;">Amount to Pay</span>
+              <span style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">${{ adjustedPrice }}</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Name on Card</label>
+            <input type="text" class="form-control" placeholder="JOHN DOE" required [disabled]="processingPayment">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Card Number</label>
+            <div style="position: relative;">
+              <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem;">💳</span>
+              <input type="text" class="form-control" placeholder="0000 0000 0000 0000" maxlength="19" required [disabled]="processingPayment" style="padding-left: 3rem;">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Expiry (MM/YY)</label>
+              <input type="text" class="form-control" placeholder="12/25" maxlength="5" required [disabled]="processingPayment">
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVV</label>
+              <input type="password" class="form-control" placeholder="123" maxlength="4" required [disabled]="processingPayment">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; position: relative;" [disabled]="processingPayment">
+            <span *ngIf="!processingPayment">Pay ${{ adjustedPrice }}</span>
+            <span *ngIf="processingPayment" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              Processing... <div class="loader" style="width: 16px; height: 16px; border-width: 2px; border-top-color: white;"></div>
+            </span>
+          </button>
+          
+          <div style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #94a3b8; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
+            <span>🛡️</span> 256-bit AES encryption
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

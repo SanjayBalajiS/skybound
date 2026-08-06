@@ -1,0 +1,68 @@
+<div class="container animate-fade-in" style="max-width: 800px; margin-top: 4rem;">
+  <div class="glass-panel card">
+    <h2 style="margin-bottom: 1.5rem; color: var(--primary-color);">✈️ Add-ons & Services</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enhance your journey by pre-booking baggage, meals, and upgrades.</p>
+    
+    <div *ngIf="!booking" class="form-group" style="display: flex; gap: 1rem;">
+      <input type="text" class="form-control" placeholder="Enter Booking ID (e.g. b1)" [(ngModel)]="bookingId" style="flex: 1;">
+      <button class="btn btn-primary" (click)="searchBooking()" [disabled]="loading || !bookingId">Find Booking</button>
+    </div>
+
+    <div *ngIf="loading" class="text-center" style="margin-top: 2rem;">
+      <div class="loader" style="margin: 0 auto;"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger" style="margin-top: 1.5rem;">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMsg" class="alert alert-success" style="margin-top: 1.5rem;">
+      {{ successMsg }}
+    </div>
+
+    <div *ngIf="booking" class="addons-content animate-fade-in" style="margin-top: 2rem;">
+      <div style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h4 style="margin: 0 0 0.5rem 0;">Booking Details</h4>
+        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+          <span><strong>ID:</strong> {{ booking.id }}</span>
+          <span><strong>Total Price:</strong> ${{ booking.totalPrice || 0 }}</span>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom: 1rem;">Available Upgrades</h3>
+      
+      <div style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 2rem;">
+        <!-- Baggage -->
+        <div class="addon-card glass-panel" style="padding: 1.5rem; text-align: center; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px;">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">🧳</div>
+          <h4 style="margin-bottom: 0.5rem;">Extra Baggage</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Add +15kg to your allowance.</p>
+          <div style="font-weight: bold; margin-bottom: 1rem;">+$40</div>
+          <button class="btn btn-outline" style="width: 100%;" (click)="purchaseAddon('Extra Baggage', 40)" [disabled]="saving">Add to Booking</button>
+        </div>
+
+        <!-- Meal -->
+        <div class="addon-card glass-panel" style="padding: 1.5rem; text-align: center; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px;">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">🍱</div>
+          <h4 style="margin-bottom: 0.5rem;">Gourmet Meal</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Pre-book a hot premium meal.</p>
+          <div style="font-weight: bold; margin-bottom: 1rem;">+$25</div>
+          <button class="btn btn-outline" style="width: 100%;" (click)="purchaseAddon('Gourmet Meal', 25)" [disabled]="saving">Add to Booking</button>
+        </div>
+
+        <!-- Cabin -->
+        <div class="addon-card glass-panel" style="padding: 1.5rem; text-align: center; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px;">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">⭐</div>
+          <h4 style="margin-bottom: 0.5rem;">Cabin Upgrade</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Upgrade to next class tier.</p>
+          <div style="font-weight: bold; margin-bottom: 1rem;">+$250</div>
+          <button class="btn btn-outline" style="width: 100%;" (click)="purchaseAddon('Cabin Upgrade', 250)" [disabled]="saving">Add to Booking</button>
+        </div>
+      </div>
+      
+      <div style="text-align: right;">
+        <button class="btn btn-outline" (click)="booking = null; bookingId = ''; successMsg = ''">Finish</button>
+      </div>
+    </div>
+  </div>
+</div>

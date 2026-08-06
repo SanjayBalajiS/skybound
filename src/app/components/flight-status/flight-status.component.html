@@ -1,0 +1,41 @@
+<div class="container animate-fade-in" style="max-width: 600px; margin-top: 4rem;">
+  <div class="glass-panel card">
+    <h2 style="margin-bottom: 1.5rem;">Check Flight Status</h2>
+    
+    <div class="form-group" style="display: flex; gap: 1rem;">
+      <input type="text" class="form-control" placeholder="Enter Flight Number (e.g. AZ-101)" [(ngModel)]="searchQuery" style="flex: 1;">
+      <button class="btn btn-primary" (click)="searchFlight()" [disabled]="loading || !searchQuery">Search</button>
+    </div>
+
+    <div *ngIf="loading" class="text-center" style="margin-top: 2rem;">
+      <div class="loader" style="margin: 0 auto;"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger" style="margin-top: 1.5rem;">
+      Flight not found. Please check the flight number and try again.
+    </div>
+
+    <div *ngIf="flight" class="flight-status-card glass-panel" style="margin-top: 2rem; background: rgba(0,0,0,0.1);">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+        <span style="font-weight: bold; font-size: 1.2rem; color: var(--primary-color);">✈️ {{flight.airline}}</span>
+        <span class="badge" style="background: var(--success-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">On Time</span>
+      </div>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Departure</div>
+          <div style="font-size: 1.2rem; font-weight: bold;">{{ flight.origin }}</div>
+          <div style="color: var(--text-muted);">{{ flight.departureTime | date:'medium' }}</div>
+        </div>
+        
+        <div style="font-size: 2rem; opacity: 0.5;">➡️</div>
+        
+        <div style="text-align: right;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Arrival</div>
+          <div style="font-size: 1.2rem; font-weight: bold;">{{ flight.destination }}</div>
+          <div style="color: var(--text-muted);">{{ flight.arrivalTime | date:'medium' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

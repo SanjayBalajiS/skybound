@@ -1,0 +1,84 @@
+<div class="container animate-fade-in ticket-page">
+  <div class="actions-header">
+    <a routerLink="/my-bookings" class="btn btn-outline">← Back to Bookings</a>
+    <button *ngIf="!loading && !error" class="btn btn-primary" (click)="downloadPDF()" [disabled]="downloading">
+      {{ downloading ? 'Generating PDF...' : 'Download Ticket (PDF)' }}
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-state glass-panel">
+    <div class="loader"></div>
+    <p>Loading your ticket details...</p>
+  </div>
+
+  <div *ngIf="error" class="empty-state glass-panel">
+    <h2>Error Loading Ticket</h2>
+    <p>We couldn't retrieve your ticket details. Please try again later.</p>
+  </div>
+
+  <div *ngIf="!loading && !error && booking && flight" class="ticket-wrapper">
+    <!-- This is the element that will be captured for the PDF -->
+    <div id="ticket-content" class="boarding-pass">
+      <div class="pass-header">
+        <div class="airline-brand">
+          <span class="icon">✈️</span>
+          <h2>{{flight.airline}}</h2>
+        </div>
+        <div class="boarding-title">BOARDING PASS</div>
+      </div>
+
+      <div class="pass-body">
+        <div class="flight-route">
+          <div class="route-city">
+            <span class="label">From</span>
+            <h3 class="city">{{flight.origin}}</h3>
+            <span class="time">{{flight.departureTime | date:'MMM d, y h:mm a'}}</span>
+          </div>
+          <div class="route-icon">✈️</div>
+          <div class="route-city right">
+            <span class="label">To</span>
+            <h3 class="city">{{flight.destination}}</h3>
+            <span class="time">{{flight.arrivalTime | date:'MMM d, y h:mm a'}}</span>
+          </div>
+        </div>
+
+        <div class="pass-details">
+          <div class="detail-group">
+            <span class="label">Passenger Name</span>
+            <span class="value">{{booking.passengerName}}</span>
+          </div>
+          <div class="detail-group">
+            <span class="label">Flight</span>
+            <span class="value">{{flight.flightNumber}}</span>
+          </div>
+          <div class="detail-group">
+            <span class="label">Date</span>
+            <span class="value">{{flight.departureTime | date:'dd MMM yyyy'}}</span>
+          </div>
+          <div class="detail-group">
+            <span class="label">Seat</span>
+            <span class="value">24A</span> <!-- Mock seat -->
+          </div>
+          <div class="detail-group">
+            <span class="label">Gate</span>
+            <span class="value">G12</span> <!-- Mock gate -->
+          </div>
+          <div class="detail-group">
+            <span class="label">Booking Ref</span>
+            <span class="value">{{booking.id}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pass-footer">
+        <div class="barcode-placeholder">
+          ||||| |||| || | || ||||| ||| || ||||
+          <span class="barcode-text">{{booking.id}} - {{flight.flightNumber}}</span>
+        </div>
+        <div class="important-notice">
+          Gate closes 20 minutes before departure.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

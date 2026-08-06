@@ -1,0 +1,129 @@
+{
+  "flights": [
+    {
+      "id": "F101",
+      "airline": "Air Zenith",
+      "flightNumber": "AZ-101",
+      "origin": "New York (JFK)",
+      "destination": "London (LHR)",
+      "departureTime": "2024-06-15T08:00:00Z",
+      "arrivalTime": "2024-06-15T20:00:00Z",
+      "price": 450,
+      "seatsAvailable": 12
+    },
+    {
+      "id": "F102",
+      "airline": "Global Wings",
+      "flightNumber": "GW-204",
+      "origin": "San Francisco (SFO)",
+      "destination": "Tokyo (NRT)",
+      "departureTime": "2024-06-16T10:30:00Z",
+      "arrivalTime": "2024-06-17T14:00:00Z",
+      "price": 850,
+      "seatsAvailable": 5
+    },
+    {
+      "id": "F103",
+      "airline": "Oceanic Airlines",
+      "flightNumber": "OA-815",
+      "origin": "Sydney (SYD)",
+      "destination": "Los Angeles (LAX)",
+      "departureTime": "2024-06-20T15:00:00Z",
+      "arrivalTime": "2024-06-20T11:30:00Z",
+      "price": 1100,
+      "seatsAvailable": 2
+    },
+    {
+      "id": "F104",
+      "airline": "Air Zenith",
+      "flightNumber": "AZ-102",
+      "origin": "London (LHR)",
+      "destination": "New York (JFK)",
+      "departureTime": "2024-06-25T09:00:00Z",
+      "arrivalTime": "2024-06-25T11:30:00Z",
+      "price": 480,
+      "seatsAvailable": 20
+    },
+    {
+      "id": "F105",
+      "airline": "Skyward Express",
+      "flightNumber": "SE-555",
+      "origin": "Dubai (DXB)",
+      "destination": "Paris (CDG)",
+      "departureTime": "2024-07-01T14:00:00Z",
+      "arrivalTime": "2024-07-01T18:30:00Z",
+      "price": 600,
+      "seatsAvailable": 8
+    }
+  ],
+  "bookings": [
+    {
+      "flightId": "F101",
+      "passengerName": "Sanjay",
+      "email": "sanjay@gmail.com",
+      "status": "Confirmed",
+      "id": "b9bJ8yCKC5c",
+      "checkedIn": true
+    },
+    {
+      "flightId": "F101",
+      "passengerName": "Sanjay",
+      "email": "sanjay@gmail.com",
+      "status": "Confirmed",
+      "id": "ZeBx-g7Z6SA"
+    },
+    {
+      "flightId": "F103",
+      "passengerName": "Sanjay",
+      "email": "sanjay@gmail.com",
+      "status": "Cancelled",
+      "id": "rLgK7oxlwKs",
+      "checkedIn": true
+    },
+    {
+      "flightId": "F101",
+      "passengerName": "Balaji",
+      "email": "Balaji@gmail.com",
+      "status": "Cancelled",
+      "seatNumber": "2B",
+      "cabinClass": "Economy",
+      "passengers": 1,
+      "totalPrice": 450,
+      "id": "6_Ad-aqqPZc"
+    },
+    {
+      "flightId": "F102",
+      "passengerName": "Rajeswari",
+      "email": "rajeswari@gmail.com",
+      "status": "Confirmed",
+      "seatNumber": "1A",
+      "cabinClass": "First",
+      "passengers": 2,
+      "totalPrice": 6800,
+      "id": "MAw5NGWX2Qs"
+    }
+  ],
+  "users": [
+    {
+      "name": "Sanjay Balaji",
+      "email": "ssanjaybalaji68@gmail.com",
+      "password": "Sanjay@2004",
+      "id": "ZaUJ6hvw76U",
+      "miles": 45
+    },
+    {
+      "name": "Rajeswari",
+      "email": "rajeswari@gmail.com",
+      "password": "Rajeswari@1983",
+      "id": "oHGl_4iTVrQ",
+      "miles": 680
+    },
+    {
+      "name": "Yuvan",
+      "email": "yuvan@gmail.com",
+      "password": "yuvan@123",
+      "id": "3LPJRq6FyLA"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

@@ -1,0 +1,62 @@
+<div class="container animate-fade-in" style="max-width: 800px; margin-top: 4rem;">
+  <div class="glass-panel card">
+    <h2 style="margin-bottom: 1.5rem; color: var(--primary-color);">✂️ Split PNR</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Divide a multi-passenger booking into separate independent bookings.</p>
+    
+    <div *ngIf="!booking" class="form-group" style="display: flex; gap: 1rem;">
+      <input type="text" class="form-control" placeholder="Enter Booking ID (e.g. b1)" [(ngModel)]="bookingId" style="flex: 1;">
+      <button class="btn btn-primary" (click)="searchBooking()" [disabled]="loading || !bookingId">Find Booking</button>
+    </div>
+
+    <div *ngIf="loading" class="text-center" style="margin-top: 2rem;">
+      <div class="loader" style="margin: 0 auto;"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger" style="margin-top: 1.5rem;">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMsg" class="alert alert-success" style="margin-top: 1.5rem;">
+      {{ successMsg }}
+      <div style="margin-top: 1rem;">
+        <button class="btn btn-primary" (click)="booking = null; successMsg = ''; bookingId = ''">Split Another Booking</button>
+      </div>
+    </div>
+
+    <div *ngIf="booking && !successMsg" class="animate-fade-in" style="margin-top: 2rem;">
+      <div style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h4 style="margin: 0 0 0.5rem 0;">Booking Details ({{ booking.id }})</h4>
+        <p style="margin: 0; font-size: 0.9rem;">Total Passengers: {{ booking.passengers || 1 }}</p>
+      </div>
+
+      <div *ngIf="(booking.passengers || 1) <= 1" class="alert alert-warning">
+        This booking only has 1 passenger. You cannot split a single-passenger booking.
+      </div>
+
+      <div *ngIf="(booking.passengers || 1) > 1">
+        <h4 style="margin-bottom: 1rem;">Select passengers to move to a new booking:</h4>
+        
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+          <!-- Mocking passengers based on the number -->
+          <div *ngFor="let p of [].constructor(booking.passengers || 1); let i = index" 
+               style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; background: white;">
+            <input type="checkbox" [id]="'p'+i" style="width: 20px; height: 20px; cursor: pointer;">
+            <label [for]="'p'+i" style="flex: 1; cursor: pointer; margin: 0; font-weight: 500;">Passenger {{ i + 1 }}</label>
+            <span class="badge" style="background: var(--primary-color); color: white;">{{ booking.cabinClass || 'Economy' }}</span>
+          </div>
+        </div>
+
+        <div class="alert alert-info" style="margin-bottom: 2rem; font-size: 0.9rem;">
+          <strong>Note:</strong> Selected passengers will receive a brand new Booking ID (PNR). The original payment method and add-ons will be proportionately divided.
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button class="btn btn-outline" (click)="booking = null">Cancel</button>
+          <button class="btn btn-primary" (click)="splitPnr()" [disabled]="saving">
+            {{ saving ? 'Processing...' : 'Confirm Split' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

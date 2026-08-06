@@ -1,0 +1,26 @@
+<div class="container animate-fade-in" style="max-width: 600px; margin-top: 4rem;">
+  <div class="glass-panel card">
+    <h2 style="margin-bottom: 1.5rem;">Web Check-in</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter your Booking ID to complete check-in and get your digital boarding pass.</p>
+    
+    <div class="form-group" style="display: flex; gap: 1rem;">
+      <input type="text" class="form-control" placeholder="Booking ID (e.g. b1)" [(ngModel)]="bookingId" style="flex: 1;">
+      <button class="btn btn-primary" (click)="checkIn()" [disabled]="loading || !bookingId">Check In</button>
+    </div>
+
+    <div *ngIf="loading" class="text-center" style="margin-top: 2rem;">
+      <div class="loader" style="margin: 0 auto;"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger" style="margin-top: 1.5rem;">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="success" class="alert alert-success" style="margin-top: 1.5rem;">
+      Check-in successful! Your boarding pass is now ready to download.
+      <div style="margin-top: 1rem;">
+        <a [routerLink]="['/ticket', bookingId]" class="btn btn-primary">View Boarding Pass</a>
+      </div>
+    </div>
+  </div>
+</div>

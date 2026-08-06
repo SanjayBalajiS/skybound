@@ -1,0 +1,50 @@
+<div class="container animate-fade-in" style="max-width: 600px; margin-top: 4rem;">
+  <div class="glass-panel card">
+    <h2 style="margin-bottom: 1.5rem; color: var(--primary-color);">💳 Track Refund</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter the Booking ID of your cancelled flight to check the refund status.</p>
+    
+    <div class="form-group" style="display: flex; gap: 1rem;">
+      <input type="text" class="form-control" placeholder="Enter Booking ID (e.g. b1)" [(ngModel)]="bookingId" style="flex: 1;">
+      <button class="btn btn-primary" (click)="trackRefund()" [disabled]="loading || !bookingId">Track</button>
+    </div>
+
+    <div *ngIf="loading" class="text-center" style="margin-top: 2rem;">
+      <div class="loader" style="margin: 0 auto;"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger" style="margin-top: 1.5rem;">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="booking" class="animate-fade-in" style="margin-top: 2rem; padding: 2rem; background: rgba(0,0,0,0.05); border-radius: 8px;">
+      <h4 style="margin-bottom: 1.5rem; text-align: center;">Refund Timeline</h4>
+      
+      <!-- Progress Bar Mock -->
+      <div style="position: relative; padding-left: 2rem;">
+        <div style="position: absolute; left: 6px; top: 10px; bottom: 10px; width: 4px; background: var(--primary-color); border-radius: 2px;"></div>
+        
+        <div style="position: relative; margin-bottom: 2rem;">
+          <div style="position: absolute; left: -2rem; top: 0; width: 16px; height: 16px; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.3);"></div>
+          <h5 style="margin: 0 0 0.25rem 0;">Cancellation Received</h5>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Your booking was successfully cancelled.</p>
+        </div>
+
+        <div style="position: relative; margin-bottom: 2rem;">
+          <div style="position: absolute; left: -2rem; top: 0; width: 16px; height: 16px; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.3);"></div>
+          <h5 style="margin: 0 0 0.25rem 0;">Processing Refund</h5>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">We are calculating the total refund amount.</p>
+        </div>
+
+        <div style="position: relative; opacity: 0.4;">
+          <div style="position: absolute; left: -2rem; top: 0; width: 16px; height: 16px; background: #94a3b8; border-radius: 50%;"></div>
+          <h5 style="margin: 0 0 0.25rem 0;">Refund Initiated</h5>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Amount will be sent to the original payment method.</p>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 2rem; font-weight: bold; color: var(--success-color);">
+        Estimated Refund: ${{ booking.totalPrice || 0 }}
+      </div>
+    </div>
+  </div>
+</div>

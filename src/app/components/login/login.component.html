@@ -1,0 +1,41 @@
+<div class="container animate-fade-in auth-container">
+  <div class="auth-card glass-panel card">
+    <div class="auth-header">
+      <h2>Welcome Back</h2>
+      <p>Log in to access your bookings and exclusive deals.</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input type="email" id="email" formControlName="email" class="form-control" placeholder="you@example.com">
+        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']" class="error-text">
+          Email is required
+        </div>
+        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']" class="error-text">
+          Please enter a valid email
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" id="password" formControlName="password" class="form-control" placeholder="••••••••">
+        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']" class="error-text">
+          Password is required
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid || loading">
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Don't have an account? <a routerLink="/signup" class="text-primary">Sign up</a></p>
+    </div>
+  </div>
+</div>

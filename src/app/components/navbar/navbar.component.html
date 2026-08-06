@@ -1,0 +1,150 @@
+<nav class="navbar glass-panel">
+  <div class="container nav-container">
+    <div class="nav-left">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon" style="color: #312e81;">✈️</span>
+        <span class="logo-text" style="color: #312e81;">SkyBound</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li class="has-dropdown">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Book <span class="chevron">˅</span></a>
+        </li>
+        <li class="has-dropdown">
+          <a href="javascript:void(0)" class="dropdown-trigger">Trips <span class="chevron">˄</span></a>
+          
+          <!-- MEGA MENU -->
+          <div class="mega-menu glass-panel">
+            <div class="mega-menu-content">
+              <!-- Column 1 -->
+              <div class="mega-column">
+                <h3>My trips</h3>
+                <ul>
+                  <li><a routerLink="/my-bookings"><span class="icon">🎟️</span> Find & view booking</a></li>
+                  <li><a routerLink="/add-ons"><span class="icon">💺</span> Upgrade to SkyBound First</a></li>
+                  <li><a routerLink="/add-ons"><span class="icon">⭐</span> Upgrade to SkyBound Premium</a></li>
+                </ul>
+                
+                <h3 class="mt-4">Change your journey</h3>
+                <ul>
+                  <li><a routerLink="/my-bookings"><span class="icon">✏️</span> Edit Booking</a></li>
+                  <li><a routerLink="/my-bookings"><span class="icon">🔄</span> Change flight</a></li>
+                  <li><a routerLink="/my-bookings"><span class="icon">❌</span> Cancel flight</a></li>
+                  <li><a routerLink="/split-pnr"><span class="icon">✂️</span> Split PNR</a></li>
+                  <li><a routerLink="/profile"><span class="icon">📝</span> Update SkyBound Miles Number</a></li>
+                </ul>
+              </div>
+              
+              <!-- Column 2 -->
+              <div class="mega-column">
+                <h3>Customise your journey</h3>
+                <ul>
+                  <li><a routerLink="/add-ons"><span class="icon">🎒</span> Add-ons, Services and Fares</a></li>
+                  <li><a routerLink="/info/fees-and-charges"><span class="icon">💰</span> Fees & Charges</a></li>
+                </ul>
+                
+                <h3 class="mt-4">Plan B</h3>
+                <ul>
+                  <li><a routerLink="/my-bookings"><span class="icon">🔁</span> Change, cancel or refund</a></li>
+                </ul>
+              </div>
+
+              <!-- Column 3 -->
+              <div class="mega-column">
+                <h3>Other</h3>
+                <ul>
+                  <li><a routerLink="/flight-status"><span class="icon">⏱️</span> Flight status</a></li>
+                  <li><a routerLink="/track-refund"><span class="icon">💳</span> Track refund</a></li>
+                  <li><a routerLink="/invoice"><span class="icon">🧾</span> View GST Invoice</a></li>
+                  <li><a routerLink="/info/codeshare"><span class="icon">🤝</span> Codeshare</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a routerLink="/check-in">Check-in</a></li>
+        <li class="has-dropdown"><a routerLink="/add-ons">SkyPick <span class="chevron">˅</span></a></li>
+        <li class="has-dropdown"><a routerLink="/profile">SkyBound Miles <span class="chevron">˅</span></a></li>
+      </ul>
+    </div> <!-- Close nav-left -->
+
+    <div class="nav-right">
+      <a routerLink="/info/fees-and-charges" class="tariff-link">Tariff Sheet</a>
+      
+      <ng-container *ngIf="(currentUser$ | async) as user; else loggedOut">
+        <div class="user-dropdown">
+          <div class="login-btn-group">
+            <span class="user-name">Hi, {{ user.name }}</span>
+            <div class="login-btn">
+              Profile <span class="chevron">˅</span>
+            </div>
+          </div>
+          <div class="dropdown-menu glass-panel">
+            <div class="miles-badge-dropdown">
+              <span class="icon">✈️</span>
+              <span class="miles">{{ user.miles || 0 | number }} Miles</span>
+            </div>
+            <a href="javascript:void(0)" (click)="logout()">Logout</a>
+          </div>
+        </div>
+      </ng-container>
+      
+      <ng-template #loggedOut>
+        <div class="user-dropdown has-dropdown">
+          <a href="javascript:void(0)" class="login-btn dropdown-trigger" style="border-radius: 20px; padding: 0.5rem 1.5rem; background-color: #1e40af; color: white; border: none;">
+            Login <span class="chevron" style="color: white;">˅</span>
+          </a>
+          
+          <!-- LOGIN MEGA MENU -->
+          <div class="login-mega-menu glass-panel">
+            <div class="login-mega-content">
+              <!-- Left White Panel -->
+              <div class="login-left-panel">
+                <div class="login-column">
+                  <h3 class="login-heading">Your Information</h3>
+                  <ul>
+                    <li><a routerLink="/flight-status"><span class="icon">⏱️</span> Flight Status</a></li>
+                    <li><a routerLink="/scratch-card"><span class="icon">💳</span> My Scratch Card</a></li>
+                  </ul>
+                </div>
+
+                <div class="login-column">
+                  <h3 class="login-heading">Other information</h3>
+                  <ul>
+                    <li><a routerLink="/info/about-us"><span class="icon">✈️</span> About us</a></li>
+                    <li><a routerLink="/contact-us"><span class="icon">📞</span> Contact us</a></li>
+                    <li><a routerLink="/info/whatsapp"><span class="icon">💬</span> WhatsApp</a></li>
+                    <li><a routerLink="/info/terms"><span class="icon">📄</span> Terms and Conditions</a></li>
+                    <li><a routerLink="/info/faq"><span class="icon">❓</span> Help and FAQs</a></li>
+                  </ul>
+                </div>
+
+                <div class="login-column">
+                  <h3 class="login-heading">My Orders</h3>
+                  <ul>
+                    <li><a routerLink="/destinations"><span class="icon">🗺️</span> Sightseeing</a></li>
+                    <li><a routerLink="/destinations"><span class="icon">🎭</span> Experiences</a></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Right Black Panel -->
+              <div class="login-right-panel">
+                <h1 class="hello-heading">Hello there,</h1>
+                <p class="login-promo">Log in to save up to 10% on your bookings.</p>
+                
+                <h4 class="login-as-heading">Login as:</h4>
+                
+                <div class="login-buttons-container">
+                  <button class="btn btn-customer" routerLink="/login">Customer</button>
+                  <a routerLink="/info/travel-partner" class="partner-link">Travel partner ></a>
+                  <a routerLink="/info/corporate" class="partner-link">Corporate ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</nav>
